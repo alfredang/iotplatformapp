@@ -1,0 +1,20 @@
+# Xcode / macOS
+.DS_Store
+*.xcuserstate
+xcuserdata/
+DerivedData/
+build/
+*.xcarchive
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# Xcode project user state (project itself IS committed; regenerate with `xcodegen generate`)
+IoTFlow.xcodeproj/xcuserdata/
+IoTFlow.xcodeproj/project.xcworkspace/xcuserdata/
+
+# Secrets — never commit
+*.p8
+*.mobileprovision
+.env
+ExportOptions.plist
