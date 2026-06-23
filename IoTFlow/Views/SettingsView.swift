@@ -2,6 +2,9 @@ import SwiftUI
 
 struct SettingsView: View {
     @EnvironmentObject var session: SessionStore
+    @State private var confirmingDelete = false
+    @State private var deleting = false
+    @State private var deleteError: String?
 
     var body: some View {
         NavigationStack {
@@ -30,12 +33,60 @@ struct SettingsView: View {
                     }
                 }
                 Section {
+                    if !confirmingDelete {
+                        Button(role: .destructive) {
+                            withAnimation { confirmingDelete = true }
+                        } label: {
+                            Label("Delete Account", systemImage: "trash")
+                        }
+                        .disabled(deleting)
+                    } else {
+                        Button(role: .destructive) {
+                            performDelete()
+                        } label: {
+                            HStack {
+                                Label("Permanently Delete Account", systemImage: "trash.fill")
+                                if deleting { Spacer(); ProgressView() }
+                            }
+                        }
+                        .disabled(deleting)
+                        Button("Cancel") {
+                            withAnimation { confirmingDelete = false }
+                        }
+                        .disabled(deleting)
+                    }
+                } header: {
+                    Text("Danger Zone")
+                } footer: {
+                    Text(confirmingDelete
+                         ? "This permanently deletes your account and all associated data, and signs you out. This action cannot be undone."
+                         : "Permanently deletes your IoTFlow account and signs you out. This cannot be undone.")
+                }
+                Section {
                     LabeledContent("Version", value: appVersion)
                 } footer: {
                     Text("IoTFlow — manage devices and monitor telemetry on the go.")
                 }
             }
             .navigationTitle("Settings")
+            .alert("Couldn't delete account", isPresented: .constant(deleteError != nil)) {
+                Button("OK") { deleteError = nil }
+            } message: {
+                Text(deleteError ?? "")
+            }
+        }
+    }
+
+    private func performDelete() {
+        deleting = true
+        Task {
+            do {
+                try await session.deleteAccount()
+            } catch {
+                deleteError = (error as? LocalizedError)?.errorDescription
+                    ?? error.localizedDescription
+            }
+            deleting = false
         }
     }
 

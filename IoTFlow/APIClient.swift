@@ -92,6 +92,20 @@ actor APIClient {
         }
     }
 
+    /// Permanently delete the signed-in user's account on the backend
+    /// (Guideline 5.1.1(v)). In demo mode there is no real account, so this is
+    /// a no-op and the caller simply exits the session.
+    func deleteAccount() async throws {
+        if DemoData.isEnabled { return }
+        var req = URLRequest(url: url("/api/account"))
+        req.httpMethod = "DELETE"
+        let (data, resp) = try await send(req)
+        guard (200...299).contains(resp.statusCode) else {
+            let msg = (try? decoder.decode(APIErrorResponse.self, from: data))?.error
+            throw APIError.server(msg ?? "Could not delete account (\(resp.statusCode)).")
+        }
+    }
+
     func currentUser() async throws -> SessionUser? {
         let req = URLRequest(url: url("/api/auth/session"))
         let (data, _) = try await send(req)

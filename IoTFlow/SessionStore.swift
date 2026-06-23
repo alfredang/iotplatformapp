@@ -51,4 +51,12 @@ final class SessionStore: ObservableObject {
         await APIClient.shared.logout()
         state = .signedOut
     }
+
+    /// Delete the account on the backend, then end the session locally.
+    func deleteAccount() async throws {
+        try await APIClient.shared.deleteAccount()
+        DemoData.isEnabled = false
+        await APIClient.shared.logout()
+        state = .signedOut
+    }
 }
