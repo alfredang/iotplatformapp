@@ -2,6 +2,8 @@
 
 A native **SwiftUI** iOS client for the [IoTFlow](https://iot.tertiaryinfotech.com/) self‑hosted IoT platform ([backend repo](https://github.com/alfredang/iotplatform)). Add devices, monitor live telemetry, and keep an eye on alerts — from your iPhone.
 
+![IoTFlow — dashboard](screenshot.png)
+
 <p align="center">
   <img src="screenshots/01-login.png" width="200" alt="Sign in"/>
   <img src="screenshots/02-dashboard.png" width="200" alt="Dashboard"/>
@@ -21,7 +23,7 @@ A native **SwiftUI** iOS client for the [IoTFlow](https://iot.tertiaryinfotech.c
 - 📊 **Dashboard** — total / online / offline device counts, active alerts, latest telemetry and recent alerts, with pull‑to‑refresh.
 - 🧩 **Devices** — browse all your devices with live online/offline status, view per‑device detail (protocol, telemetry count, last seen, location), and swipe to delete.
 - ➕ **Add a device** — name, type, location and protocol (HTTP / MQTT / WebSocket); the generated device token is shown once and copyable for flashing onto ESP32 / Arduino / Raspberry Pi.
-- ⚙️ **Settings** — account info, configurable server URL (point at any self‑hosted IoTFlow instance), and sign out.
+- ⚙️ **Settings** — account info, configurable server URL (point at any self‑hosted IoTFlow instance), sign out, and **delete account** (permanent, in‑app).
 - ▶️ **Demo mode** — explore the full UI with sample data without a backend.
 
 ## Screenshots
@@ -56,6 +58,7 @@ The app talks to the IoTFlow REST API:
 | `GET /api/auth/session` | Restore session |
 | `GET /api/dashboard/summary` | Dashboard counts, telemetry, alerts |
 | `GET /api/devices` · `POST /api/devices` · `DELETE /api/devices/:id` | List / add / remove devices |
+| `DELETE /api/account` | Permanently delete the signed‑in account |
 
 ## Getting started
 

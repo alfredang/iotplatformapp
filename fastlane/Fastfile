@@ -1,0 +1,31 @@
+default_platform(:ios)
+platform :ios do
+  lane :priv_clean do
+    require 'spaceship'
+    Spaceship::Tunes.login("angchewhoe@gmail.com")
+    Spaceship::Tunes.select_team(team_id: "128525761")
+    c = Spaceship::Tunes.client
+    aid="6781005693"; base = "https://appstoreconnect.apple.com/iris/v1"
+    # delete ALL existing usages
+    r=c.request(:get,"#{base}/apps/#{aid}/dataUsages?limit=200")
+    ids=r.body["data"].map{|x| x["id"]}
+    ids.each do |id|
+      rr=c.request(:delete,"#{base}/appDataUsages/#{id}"); UI.message "DEL #{id[0,8]} #{rr.status}"
+    end
+    # recreate clean complete rows
+    def mk(c,base,aid,cat)
+      b={"data"=>{"type"=>"appDataUsages","relationships"=>{
+        "app"=>{"data"=>{"type"=>"apps","id"=>aid}},
+        "category"=>{"data"=>{"type"=>"appDataUsageCategories","id"=>cat}},
+        "purpose"=>{"data"=>{"type"=>"appDataUsagePurposes","id"=>"APP_FUNCTIONALITY"}},
+        "dataProtection"=>{"data"=>{"type"=>"appDataUsageDataProtections","id"=>"DATA_LINKED_TO_YOU"}}}}}
+      r=c.request(:post){|q| q.url "#{base}/appDataUsages"; q.headers['Content-Type']='application/json'; q.body=b.to_json}
+      UI.message "MK #{cat} #{r.status}"
+    end
+    mk(c,base,aid,"EMAIL_ADDRESS"); mk(c,base,aid,"NAME")
+    # publish
+    pub={"data"=>{"type"=>"appDataUsagesPublishState","id"=>aid,"attributes"=>{"published"=>true}}}
+    r=c.request(:patch){|q| q.url "#{base}/appDataUsagesPublishState/#{aid}"; q.headers['Content-Type']='application/json'; q.body=pub.to_json}
+    UI.message "PUBLISH #{r.status} #{r.body.to_json[0,200]}"
+  end
+end
