@@ -2,6 +2,12 @@
 
 A native **SwiftUI** iOS client for the [IoTFlow](https://iot.tertiaryinfotech.com/) self‑hosted IoT platform ([backend repo](https://github.com/alfredang/iotplatform)). Add devices, monitor live telemetry, and keep an eye on alerts — from your iPhone.
 
+<p align="center">
+  <a href="https://apps.apple.com/app/id6781005693">
+    <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on the App Store" height="56"/>
+  </a>
+</p>
+
 ![IoTFlow — dashboard](screenshot.png)
 
 <p align="center">
