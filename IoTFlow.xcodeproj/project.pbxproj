@@ -8,8 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		022B771F30F562135340F547 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C2814AF26D8C69BFCEDF3D /* LoginView.swift */; };
+		0C8EF6AA31993F896A8A4B01 /* AutomationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B819993CF3608ECD88ABA0D /* AutomationsView.swift */; };
 		0D5E70D6C33D6BA670253EF9 /* DeviceDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 100B92BA4946447000BEDDDF /* DeviceDetailView.swift */; };
 		100FCBEE0E1474D886D00AD5 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A04F16EF847ECB4ED65C6A3E /* DashboardView.swift */; };
+		2032843C2DC1EABEEB86BAF4 /* WidgetsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C712CD25A1E0B1B30231A10D /* WidgetsView.swift */; };
 		236B15D5F0056CE5FAE85B86 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF9BB2572ABEA0F4C078B2E /* SettingsView.swift */; };
 		3D330EBD7629A4F13A386EFF /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDF86DD39A58ED51B5F526C4 /* SessionStore.swift */; };
 		62CD120A33FC88A9955C4751 /* AddDeviceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 494B649B0297C8706DC134B5 /* AddDeviceView.swift */; };
@@ -20,6 +22,7 @@
 		C72D257BFCF93483BB723232 /* DevicesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDF68ACAB0A123B9EA186F1 /* DevicesView.swift */; };
 		DD58ED86256D3371EFA72E07 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A070765995EC4BC747799A /* RootView.swift */; };
 		F6A7D0D8BC7AA907D535F16C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5E00D15D9DEB79A4EE9B7CF7 /* Assets.xcassets */; };
+		F777A480FCA72DA1768D77AB /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 646E1542432EC366461A3081 /* NotificationManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,11 +32,14 @@
 		45F3EC71BA805D200881A65A /* DemoData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoData.swift; sourceTree = "<group>"; };
 		494B649B0297C8706DC134B5 /* AddDeviceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDeviceView.swift; sourceTree = "<group>"; };
 		5E00D15D9DEB79A4EE9B7CF7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		646E1542432EC366461A3081 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		6B819993CF3608ECD88ABA0D /* AutomationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutomationsView.swift; sourceTree = "<group>"; };
 		7239E4265279E7CB9B7D28E5 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		A04F16EF847ECB4ED65C6A3E /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
 		ADF9BB2572ABEA0F4C078B2E /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		BFDF68ACAB0A123B9EA186F1 /* DevicesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevicesView.swift; sourceTree = "<group>"; };
 		C2C2814AF26D8C69BFCEDF3D /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		C712CD25A1E0B1B30231A10D /* WidgetsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetsView.swift; sourceTree = "<group>"; };
 		CDF86DD39A58ED51B5F526C4 /* SessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
 		D7295F5716D36E0C2968915E /* IoTFlowApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IoTFlowApp.swift; sourceTree = "<group>"; };
 		D7A070765995EC4BC747799A /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
@@ -48,6 +54,7 @@
 				45F3EC71BA805D200881A65A /* DemoData.swift */,
 				D7295F5716D36E0C2968915E /* IoTFlowApp.swift */,
 				2F4046D567BFBB5209CC1AA9 /* Models.swift */,
+				646E1542432EC366461A3081 /* NotificationManager.swift */,
 				CDF86DD39A58ED51B5F526C4 /* SessionStore.swift */,
 				CBE02060B972038FBE4DA3C2 /* Views */,
 			);
@@ -66,12 +73,14 @@
 			isa = PBXGroup;
 			children = (
 				494B649B0297C8706DC134B5 /* AddDeviceView.swift */,
+				6B819993CF3608ECD88ABA0D /* AutomationsView.swift */,
 				A04F16EF847ECB4ED65C6A3E /* DashboardView.swift */,
 				100B92BA4946447000BEDDDF /* DeviceDetailView.swift */,
 				BFDF68ACAB0A123B9EA186F1 /* DevicesView.swift */,
 				C2C2814AF26D8C69BFCEDF3D /* LoginView.swift */,
 				D7A070765995EC4BC747799A /* RootView.swift */,
 				ADF9BB2572ABEA0F4C078B2E /* SettingsView.swift */,
+				C712CD25A1E0B1B30231A10D /* WidgetsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -157,6 +166,7 @@
 			files = (
 				75387165538113E35178C183 /* APIClient.swift in Sources */,
 				62CD120A33FC88A9955C4751 /* AddDeviceView.swift in Sources */,
+				0C8EF6AA31993F896A8A4B01 /* AutomationsView.swift in Sources */,
 				100FCBEE0E1474D886D00AD5 /* DashboardView.swift in Sources */,
 				B99D6380745F906FBBCB5A7C /* DemoData.swift in Sources */,
 				0D5E70D6C33D6BA670253EF9 /* DeviceDetailView.swift in Sources */,
@@ -164,9 +174,11 @@
 				831FB266F8E03467502216CE /* IoTFlowApp.swift in Sources */,
 				022B771F30F562135340F547 /* LoginView.swift in Sources */,
 				A65154C55601F0A803E4A9A2 /* Models.swift in Sources */,
+				F777A480FCA72DA1768D77AB /* NotificationManager.swift in Sources */,
 				DD58ED86256D3371EFA72E07 /* RootView.swift in Sources */,
 				3D330EBD7629A4F13A386EFF /* SessionStore.swift in Sources */,
 				236B15D5F0056CE5FAE85B86 /* SettingsView.swift in Sources */,
+				2032843C2DC1EABEEB86BAF4 /* WidgetsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -224,7 +236,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = GU9WTSTX9M;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -250,7 +262,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -298,7 +310,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = GU9WTSTX9M;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -318,7 +330,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";

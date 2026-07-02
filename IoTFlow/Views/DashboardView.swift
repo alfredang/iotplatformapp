@@ -87,6 +87,8 @@ struct DashboardView: View {
                     }
                 }
             }
+
+            DashboardWidgetsSection()
         }
         .padding(.vertical)
     }

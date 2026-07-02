@@ -1,6 +1,6 @@
 # IoTFlow iOS
 
-A native **SwiftUI** iOS client for the [IoTFlow](https://iot.tertiaryinfotech.com/) self‑hosted IoT platform ([backend repo](https://github.com/alfredang/iotplatform)). Add devices, monitor live telemetry, and keep an eye on alerts — from your iPhone.
+A native **SwiftUI** iOS client for the [IoTFlow](https://iot.tertiaryinfotech.com/) self‑hosted IoT platform ([backend repo](https://github.com/alfredang/iotplatform)). Add devices, monitor live telemetry, control devices with dashboard widgets, trigger n8n automation flows, and keep an eye on alerts — from your iPhone.
 
 <p align="center">
   <a href="https://apps.apple.com/app/id6781005693">
@@ -27,6 +27,9 @@ A native **SwiftUI** iOS client for the [IoTFlow](https://iot.tertiaryinfotech.c
 
 - 🔐 **Sign in / register** against the IoTFlow backend (Auth.js credentials, cookie session).
 - 📊 **Dashboard** — total / online / offline device counts, active alerts, latest telemetry and recent alerts, with pull‑to‑refresh.
+- 🧱 **Dashboard widgets** — the web dashboard's widgets on mobile: numbers, gauges, LEDs and status pills with live polling, plus interactive **switches, sliders, buttons and a terminal** that send device commands (virtual pins → MQTT downlink) in real time.
+- ⚡ **Automations (n8n)** — list the project's automations with event/metric tags and last‑fired status, and **trigger a flow** from the phone (sends a sample event to its n8n webhook, same as the web Test button).
+- 🔔 **Alert notifications** — local notifications when a new alert fires while the app is running.
 - 🧩 **Devices** — browse all your devices with live online/offline status, view per‑device detail (protocol, telemetry count, last seen, location), and swipe to delete.
 - ➕ **Add a device** — name, type, location and protocol (HTTP / MQTT / WebSocket); the generated device token is shown once and copyable for flashing onto ESP32 / Arduino / Raspberry Pi.
 - ⚙️ **Settings** — account info, configurable server URL (point at any self‑hosted IoTFlow instance), sign out, and **delete account** (permanent, in‑app).
@@ -34,9 +37,9 @@ A native **SwiftUI** iOS client for the [IoTFlow](https://iot.tertiaryinfotech.c
 
 ## Screenshots
 
-| Sign in | Dashboard | Devices | Add device | Settings |
-|---|---|---|---|---|
-| ![](screenshots/01-login.png) | ![](screenshots/02-dashboard.png) | ![](screenshots/03-devices.png) | ![](screenshots/04-add-device.png) | ![](screenshots/05-settings.png) |
+| Sign in | Dashboard | Devices | Add device | Settings | Automations |
+|---|---|---|---|---|---|
+| ![](screenshots/01-login.png) | ![](screenshots/02-dashboard.png) | ![](screenshots/03-devices.png) | ![](screenshots/04-add-device.png) | ![](screenshots/05-settings.png) | ![](screenshots/06-automations.png) |
 
 ## Tech stack & skills
 
@@ -64,6 +67,10 @@ The app talks to the IoTFlow REST API:
 | `GET /api/auth/session` | Restore session |
 | `GET /api/dashboard/summary` | Dashboard counts, telemetry, alerts |
 | `GET /api/devices` · `POST /api/devices` · `DELETE /api/devices/:id` | List / add / remove devices |
+| `GET /api/dashboard/widgets` | Dashboard widgets (display + control) |
+| `GET /api/devices/:id/telemetry?metric=&limit=1` | Latest value for number / gauge / LED widgets |
+| `GET /api/devices/:id/command` · `POST /api/devices/:id/command` | Read / set virtual‑pin state (switch, slider, button, terminal) |
+| `GET /api/automations` · `POST /api/automations/:id` · `PATCH /api/automations/:id` | List / trigger / enable‑disable n8n automations |
 | `DELETE /api/account` | Permanently delete the signed‑in account |
 
 ## Getting started
@@ -97,10 +104,13 @@ IoTFlow/
 ├── SessionStore.swift      # Auth state (ObservableObject)
 ├── Models.swift            # Codable models
 ├── DemoData.swift          # Sample data for demo mode
+├── NotificationManager.swift # Local notifications for new alerts
 ├── Views/
 │   ├── RootView.swift      # Auth gate + tab bar
 │   ├── LoginView.swift
 │   ├── DashboardView.swift
+│   ├── WidgetsView.swift   # Dashboard widget grid (display + control)
+│   ├── AutomationsView.swift # n8n automations list + trigger
 │   ├── DevicesView.swift
 │   ├── AddDeviceView.swift
 │   ├── DeviceDetailView.swift

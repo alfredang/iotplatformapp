@@ -40,14 +40,22 @@ struct MainTabView: View {
             DevicesView()
                 .tabItem { Label("Devices", systemImage: "cpu.fill") }
                 .tag(1)
+            AutomationsView()
+                .tabItem { Label("Automations", systemImage: "bolt.horizontal.fill") }
+                .tag(2)
             SettingsView()
                 .tabItem { Label("Settings", systemImage: "gearshape.fill") }
-                .tag(2)
+                .tag(3)
         }
         .onAppear {
             if ProcessInfo.processInfo.arguments.contains("-showAddDevice") {
                 tab = 1
             }
+        }
+        // Ask for notification permission and start polling for new alerts.
+        .task {
+            await NotificationManager.shared.requestAuthorization()
+            await NotificationManager.shared.startPolling()
         }
     }
 }

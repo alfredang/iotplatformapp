@@ -175,6 +175,82 @@ actor APIClient {
         }
     }
 
+    // MARK: - Dashboard widgets + device control
+
+    /// The current project's dashboard widgets (display + control), matching web.
+    func dashboardWidgets() async throws -> [DashWidget] {
+        if DemoData.isEnabled { return DemoData.widgets() }
+        let resp: WidgetsResponse = try await getJSON("/api/dashboard/widgets")
+        return resp.widgets
+    }
+
+    /// Latest value for a device metric (for number / gauge / LED widgets).
+    func latestValue(deviceId: String, metric: String) async throws -> Double? {
+        if DemoData.isEnabled { return DemoData.latest(deviceId, metric) }
+        let m = metric.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? metric
+        let resp: TelemetryLatestResponse = try await getJSON("/api/devices/\(deviceId)/telemetry?metric=\(m)&limit=1")
+        return resp.telemetry.first?.value
+    }
+
+    /// Current virtual-pin states for a device (control widgets reflect these).
+    func pinStates(deviceId: String) async throws -> [String: Double] {
+        if DemoData.isEnabled { return DemoData.pins(deviceId) }
+        let resp: PinStateResponse = try await getJSON("/api/devices/\(deviceId)/command")
+        return resp.state.compactMapValues { $0.double }
+    }
+
+    /// Set a virtual-pin value (downlink control) — the platform persists it and
+    /// publishes to MQTT `devices/<id>/down`.
+    func setCommand(deviceId: String, pin: String, value: Double?, strValue: String? = nil) async throws {
+        if DemoData.isEnabled { DemoData.setPin(deviceId, pin, value); return }
+        var body: [String: Any] = ["pin": pin]
+        if let value { body["value"] = value }
+        if let strValue { body["strValue"] = strValue }
+        var req = URLRequest(url: url("/api/devices/\(deviceId)/command"))
+        req.httpMethod = "POST"
+        req.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        req.httpBody = try JSONSerialization.data(withJSONObject: body)
+        let (data, resp) = try await send(req)
+        guard (200...299).contains(resp.statusCode) else {
+            let msg = (try? decoder.decode(APIErrorResponse.self, from: data))?.error
+            throw APIError.server(msg ?? "Could not send command (\(resp.statusCode)).")
+        }
+    }
+
+    // MARK: - Automations (n8n low-code flows)
+
+    /// List the current project's automations (event → n8n webhook links).
+    func automations() async throws -> [Automation] {
+        if DemoData.isEnabled { return DemoData.automations() }
+        let resp: AutomationsResponse = try await getJSON("/api/automations")
+        return resp.automations
+    }
+
+    /// Trigger an automation — sends a sample event to its n8n flow (the same
+    /// "Test" action as the web Automations page). Returns the delivery status.
+    func triggerAutomation(id: String) async throws -> String {
+        if DemoData.isEnabled { return "ok" }
+        var req = URLRequest(url: url("/api/automations/\(id)"))
+        req.httpMethod = "POST"
+        req.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        let (data, resp) = try await send(req)
+        guard (200...299).contains(resp.statusCode) else {
+            let msg = (try? decoder.decode(APIErrorResponse.self, from: data))?.error
+            throw APIError.server(msg ?? "Could not trigger flow (\(resp.statusCode)).")
+        }
+        return (try? decoder.decode(AutomationActionResponse.self, from: data))?.status ?? "ok"
+    }
+
+    /// Enable/disable an automation.
+    func setAutomationEnabled(id: String, enabled: Bool) async throws {
+        if DemoData.isEnabled { return }
+        var req = URLRequest(url: url("/api/automations/\(id)"))
+        req.httpMethod = "PATCH"
+        req.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        req.httpBody = try JSONSerialization.data(withJSONObject: ["enabled": enabled])
+        _ = try await send(req)
+    }
+
     // MARK: - Helpers
 
     private func getJSON<T: Decodable>(_ path: String) async throws -> T {

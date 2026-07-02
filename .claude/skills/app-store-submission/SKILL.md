@@ -161,6 +161,21 @@ review the Development→Production diff and **Deploy**.
   operation's `url` with its `requestHeaders`; (3) `PATCH /v1/appScreenshots/{id}`
   `uploaded=true` + `sourceFileChecksum` = **MD5 hex** of the file. Then poll
   `assetDeliveryState.state == COMPLETE`.
+- **`exportArchive` fails: "Provisioning profile … doesn't include signing certificate" then
+  "Cloud signing permission error" + "No profiles found".** The cached store profile references
+  a stale/renewed cert, and `-allowProvisioningUpdates` (even with the API key) can't cloud-sign
+  when the key lacks the Cloud Managed Distribution permission. Fix without the portal: find the
+  ASC certificate whose SHA-1 matches the local identity (`security find-identity -v -p codesigning`
+  vs `GET /v1/certificates` → sha1 of the decoded `certificateContent`), `POST /v1/profiles`
+  (`profileType: IOS_APP_STORE`, that certificate + the bundleId resource), base64-decode
+  `profileContent` into `~/Library/Developer/Xcode/UserData/Provisioning Profiles/`, then export
+  with **manual** signing (`signingStyle: manual`, `signingCertificate: Apple Distribution`,
+  `provisioningProfiles: {bundle id: profile name}`).
+- **Updating a live app**: `latest_version()` skips `READY_FOR_SALE` — first
+  `POST /v1/appStoreVersions` (new `versionString`, `releaseType: AFTER_APPROVAL`), which
+  inherits localizations, screenshots and the review contact from the live version; then set
+  `whatsNew` on the new version's localization (required for updates), upload the bumped build,
+  attach and submit as usual (`review-contact` will 409 ALREADY_EXISTS — that's fine).
 - **Bundle ID already taken** → pick a namespaced reverse-DNS id you control
   (`com.yourorg.appname`); update the project (and the iCloud container, if any) to match.
 - **Device not registered / iCloud container mismatch** when test-installing on hardware →
